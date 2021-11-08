@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .navbar {
+            display: flex;
+            padding: 1rem;
+            background-color: #81C784;
+        }
+
+        .nav-cont {
+            display: flex;
+            width: 35%;
+            margin-left: 65%;
+            justify-content: space-between;
+
+        }
+
+        #container {
+            display: grid;
+            width: 90%;
+            margin: auto;
+            grid-template-columns: 25% 25% 25% 25%;
+            gap: 10px;
+            text-align: center;
+            margin-top: 20px
+        }
+
+        img {
+            width: 100%;
+        }
+
+        .btn {
+            display: flex;
+            width: 20%;
+            margin: auto;
+            justify-content: center;
+            padding: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-cont">
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Signup</a>
+            <a href="menu.html">Menu</a>
+            <a href="cart.html">Go to Cart</a>
+        </div>
+    </nav>
+    <div id="container"></div>
+    <button class="btn" onclick="ch()">Place order</button>
+</body>
+
+</html>
+<script>
+    let data = JSON.parse(localStorage.getItem("foodCart"));
+    showDish(data);
+
+    function random() {
+        return Math.floor(Math.random() * 9)
+    }
+
+    function showDish(data) {
+
+        data.forEach(({ strMeal, strMealThumb }, a) => {
+            let img = document.createElement("img");
+            let div = document.createElement("div");
+            let dis = document.createElement("p");
+            let price = document.createElement("p");
+
+            img.src = strMealThumb;
+            dis.textContent = strMeal;
+            let s = "";
+            for (let i = 0; i < 3; i++) {
+                s += random();
+            }
+            price.textContent = "Rs-" + s + "/-";
+
+            div.append(img, dis, price);
+            container.append(div);
+        })
+    }
+    let a=[0,3000,8000,10000,12000];
+    let c=0;
+    let arr = ["Your order is accepted", "Your order is being cooked", "Your order is ready", "Order out for delivery", "Order delivered"]
+    function alt() {
+        let interval=setInterval(alt, a[c])  ;
+        for (let i = 0; i < arr.length; i++) {
+            console.log(arr[i]);
+        }
+        c++;
+    }
+
+    
+
+</script>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         .navbar {
+            display: flex;
+            padding: 1rem;
+            background-color:#81C784;
+        }
+        .nav-cont{
+            display: flex;
+            width: 35%;
+            margin-left: 65%;
+            justify-content: space-between;
+            
+        }
+        form{
+            width: 10%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-cont">
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Signup</a>
+            <a href="menu.html">Menu</a>
+            <a href="cart.html">Go to Cart</a>
+        </div>
+    </nav>
+    <div>
+        <form id="form" onsubmit="signup(event)">
+            <input type="text" placeholder="Name" id="name">
+            <input type="email" placeholder="Email" id="email">
+            <input type="password" placeholder="Password" id="password">
+            <input type="text" placeholder="Username" id="username">
+            <input type="number" placeholder="Number" id="mobile">
+            <input type="text" placeholder="Description" id="description">
+            <input type="submit">
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    function signup(e){
+        e.preventDefault();
+
+        let form = document.getElementById("form");
+
+        let data={
+            name:form.name.value,
+            email:form.email.value,
+            password:form.password.value,
+            username:form.username.value,
+            mobile:form.mobile.value,
+            description:form.description.value
+        };
+        console.log(data);
+
+        fetch("https://masai-api-mocker.herokuapp.com/auth/register",{
+            method: "POST",
+            body:JSON.stringify(data),
+            headers:{
+                'Content-Type':"application/json",
+            },
+        })
+        .then((res)=>{
+            return res.json();
+        })
+        .then((res)=>{
+            console.log(res);
+            alert("signup sucessfully")
+        })
+        .catch((err)=>{
+            console.log(err);
+            alert("details already exists")
+        })
+    }
+</script>

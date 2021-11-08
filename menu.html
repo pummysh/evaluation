@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         .navbar {
+            display: flex;
+            padding: 1rem;
+            background-color:#81C784;
+        }
+        .nav-cont{
+            display: flex;
+            width: 35%;
+            margin-left: 65%;
+            justify-content: space-between;
+            
+        }
+        #container{
+            display: grid;
+            width:90%;
+            margin:auto;
+            grid-template-columns: 25% 25% 25% 25%;
+            gap: 10px;
+           text-align: center;
+           margin-top:20px
+        }
+        img{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-cont">
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Signup</a>
+            <a href="menu.html">Menu</a>
+            <a href="cart.html">Go to Cart</a>
+        </div>
+    </nav>
+
+    <div id="container"></div>
+    
+</body>
+</html>
+
+<script>
+    let container = document.getElementById("container");
+    //https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood
+    async function show(){
+        let res=await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood`);
+        let data =await res.json();
+        data=data.meals;
+        showDish(data);
+    }
+    show();
+
+    function random(){
+        return Math.floor(Math.random()*9)
+    }
+
+    function showDish(data) {
+
+        data.forEach(({strMeal,strMealThumb},a)=>{
+            let img=document.createElement("img");
+            let div=document.createElement("div");
+            let dis=document.createElement("p");
+            let price=document.createElement("p");
+            let btn=document.createElement("button")
+            img.src=strMealThumb;
+            dis.textContent=strMeal;
+            let s="";
+            for(let i=0;i<3;i++){
+                s+=random();
+            }
+           price.textContent="Rs-"+s+"/-";
+            btn.textContent="Add to cart";
+            btn.onclick=()=>{
+                add(data[a]);
+            }
+           div.append(img,dis,price,btn);
+            container.append(div);
+        })
+    }
+
+    function add(a){
+       if(localStorage.getItem("foodCart")===null){
+           localStorage.setItem("foodCart", JSON.stringify([]))
+       }
+       let cart=JSON.parse(localStorage.getItem("foodCart"));
+       cart.push(a);
+       localStorage.setItem("foodCart", JSON.stringify(cart));
+    }
+</script>
